@@ -5,11 +5,16 @@
     <!-- These properties are use by the automation that updates dependencies.props -->
     <LineupPackageId>Internal.AspNetCore.Universe.Lineup</LineupPackageId>
     <LineupPackageRestoreSource>https://dotnet.myget.org/F/aspnetcore-dev/api/v3/index.json</LineupPackageRestoreSource>
+    <_SdkVersion Condition="'$(_SdkVersion)' == ''">$([System.IO.Path]::GetFileName($([System.IO.Path]::GetDirectoryName('$(MSBuildExtensionsPath)'))))</_SdkVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <DotNetCoreRuntime Include="$(MicrosoftNETCoreApp20PackageVersion)" />
     <DotNetCoreRuntime Include="$(MicrosoftNETCoreApp21PackageVersion)" />
     <DotNetCoreRuntime Include="$(MicrosoftNETCoreApp22PackageVersion)" />
+    <DotNetCoreRuntime Condition="'$(OS)' == 'Windows_NT'" Include="$(MicrosoftNETCoreApp20PackageVersion)" Arch="x86" />
+    <DotNetCoreRuntime Condition="'$(OS)' == 'Windows_NT'" Include="$(MicrosoftNETCoreApp21PackageVersion)" Arch="x86" />
+    <DotNetCoreRuntime Condition="'$(OS)' == 'Windows_NT'" Include="$(MicrosoftNETCoreApp22PackageVersion)" Arch="x86" />
+    <DotNetCoreSdk Condition="'$(OS)' == 'Windows_NT'" Include="$(_SdkVersion)" FallbackPackageCache="True" Arch="x86" />
   </ItemGroup>
 </Project>
